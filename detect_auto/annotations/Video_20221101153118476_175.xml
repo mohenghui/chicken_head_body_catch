@@ -1,0 +1,26 @@
+<annotation>
+	<folder>D:/vscode_work/yolov7-main/detect_auto/images</folder>
+	<filename>Video_20221101153118476_175.png</filename>
+	<path>D:/vscode_work/yolov7-main/detect_auto/images/Video_20221101153118476_175.png</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>1280</width>
+		<height>1024</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>chick</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>494</xmin>
+			<ymin>592</ymin>
+			<xmax>620</xmax>
+			<ymax>720</ymax>
+		</bndbox>
+	</object>
+</annotation>

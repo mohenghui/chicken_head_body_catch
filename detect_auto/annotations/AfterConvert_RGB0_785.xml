@@ -1,0 +1,26 @@
+<annotation>
+	<folder>D:/vscode_work/yolov7-main/detect_auto/images</folder>
+	<filename>AfterConvert_RGB0_785.png</filename>
+	<path>D:/vscode_work/yolov7-main/detect_auto/images/AfterConvert_RGB0_785.png</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>1280</width>
+		<height>1024</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>chick</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>430</xmin>
+			<ymin>222</ymin>
+			<xmax>544</xmax>
+			<ymax>324</ymax>
+		</bndbox>
+	</object>
+</annotation>
