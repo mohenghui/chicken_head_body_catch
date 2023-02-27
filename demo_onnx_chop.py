@@ -291,7 +291,7 @@ class MainWindow(QMainWindow):
         self.light_num = 4
         self.t4=None
         self.index=0
-        self.listen_open=True
+        self.listen_open=False
         self.predict_light = [NO1_open, NO2_open, NO3_open,
                               NO4_open, NO1_down, NO2_down, NO3_down, NO4_down]
         self.show_timeout_open=True
@@ -329,7 +329,7 @@ class MainWindow(QMainWindow):
         # self.model = onnxruntime.InferenceSession('output/chicken_model.onnx')
         # self.model.get_modelmeta()
         weight_path="best_head.pt"
-        self.model=Detect_app(weights=weight_path,device="0",half=True,augment=False,conf_thres=0.25,iou_thres=0.45,classes=None,agnostic_nms=False,img_size=640)
+        self.model=Detect_app(weight=weight_path,device="0",half=True,augment=False,conf_thres=0.25,iou_thres=0.45,classes=None,agnostic_nms=False,img_size=640)
         # self.model=Detect_app(weights=weight_path,device="cpu",half=False,augment=False,conf_thres=0.25,iou_thres=0.45,classes=None,agnostic_nms=False,img_size=640)
 # python export.py --weights yolov7-tiny.pt --grid --end2end --simplify --topk-all 100 --iou-thres 0.65 --conf-thres 0.35 --img-size 640 640 --max-wh 640
     def out_serial(self):

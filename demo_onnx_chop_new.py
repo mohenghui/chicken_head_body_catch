@@ -296,6 +296,9 @@ class MainWindow(QMainWindow):
                               NO4_open, NO1_down, NO2_down, NO3_down, NO4_down]
         self.show_timeout_open=True
         self.send_open=False
+        self.move_start=False
+        self.catch_start=False
+        self.out_start=False
         if self.listen_open:
             self.t3 = threading.Thread(target=self.listen_sign)
             self.t3.start()
@@ -439,6 +442,36 @@ class MainWindow(QMainWindow):
                                             objectName="RedButton", minimumHeight=48)
         self.send_close_button.clicked.connect(self.close_result)
         self.send_close_button.move(10,800)
+
+        self.send_move_button= QPushButton('开始移动', self,
+                                            objectName="RedButton", minimumHeight=48)
+        self.send_move_button.clicked.connect(self.move_sign)
+        self.send_move_button.move(10,910)
+
+        self.send_catch_button= QPushButton('开始抓取', self,
+                                            objectName="RedButton", minimumHeight=48)
+        self.send_catch_button.clicked.connect(self.catch_sign)
+        self.send_catch_button.move(10,960)
+
+        self.send_out_button= QPushButton('开始移除', self,
+                                            objectName="RedButton", minimumHeight=48)
+        self.send_out_button.clicked.connect(self.out_sign)
+        self.send_out_button.move(10,1010)
+    def move_sign(self):
+        self.move_start=True
+        self.catch_start=False
+        self.out_start=False
+        # self.start_predict=False
+    def catch_sign(self):
+        self.move_start=False
+        self.catch_start=True
+        self.out_start=False
+        # self.start_predict=False
+    def out_sign(self):
+        self.move_start=False
+        self.catch_start=False
+        self.out_start=True
+        # self.start_predict=False
     def send_result(self):
         self.send_open=True
         self.model.init_client()
@@ -589,13 +622,17 @@ class MainWindow(QMainWindow):
                 str(self.child.device_index)+"_"+str(self.index)+"_"+"3"+".png"
             self.index+=1         
             file_open = open(self.file_path.encode('ascii'), 'wb+')
-            file_save = open(self.file_save_path.encode('ascii'), 'wb+')
+            # file_save = open(self.file_save_path.encode('ascii'), 'wb+')
             img_buff = (c_ubyte * stConvertParam.nImageLen)()
             cdll.msvcrt.memcpy(
                 byref(img_buff), stConvertParam.pImageBuffer, stConvertParam.nImageLen)
             file_open.write(img_buff)
-            file_save.write(img_buff)
+            # file_save.write(img_buff)
         img = cv2.imread(self.file_path)
+        img=img[223:914,136:1089,:]
+        # print(img.shape)
+        img=cv2.resize(img,(self.label.height(), self.label.width()))
+        # print(img.shape)
         # self.og_img=img.copy()
         self.img=img.copy()
         img=cv2.cvtColor(img,cv2.COLOR_BGR2RGB)
@@ -624,9 +661,21 @@ class MainWindow(QMainWindow):
                     showImage = QtGui.QImage(
                         self.get_img.data, self.get_img.shape[1], self.get_img.shape[0], QtGui.QImage.Format_RGB888)
                     self.label.setPixmap(QtGui.QPixmap.fromImage(showImage))
-                    if self.send_open:
+                    if self.send_open and self.move_start:
+                        new_result.append(True)
+                        new_result.append(False)
+                        new_result.append(False)
                         self.model.SingleSendText(new_result)
-
+                    if self.send_open and self.catch_start:
+                        new_result.append(False)
+                        new_result.append(True)
+                        new_result.append(False)
+                        self.model.SingleSendText(new_result)
+                    if self.send_open and self.out_start:
+                        new_result.append(False)
+                        new_result.append(False)
+                        new_result.append(True)
+                        self.model.SingleSendText(new_result)
 
     def open_camera(self):
         self.open = True
